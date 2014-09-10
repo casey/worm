@@ -55,9 +55,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
     }
   }
 
+  put := r.Method == "PUT"
   get := r.Method == "GET"
-  ensure(get || r.Method == "PUT", http.StatusMethodNotAllowed)
-  put := !get
+  ensure(put || get, http.StatusMethodNotAllowed)
 
   match := path_re.FindStringSubmatch(r.URL.Path)
 
