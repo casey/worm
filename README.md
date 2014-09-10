@@ -1,7 +1,7 @@
 WORM
 ----
 
-A write once read many key value storage service. TOTALLY BROKEN AT THE MOMENT!
+A write once read many key value storage service.
 
 [Test instance here.](http://rodarmor-worm.appspot.com)
 
