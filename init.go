@@ -37,7 +37,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
     } else if body == "" {
       fmt.Fprintf(w, "%v %v\n", status.number(), status.text())
     } else {
-      fmt.Fprintf(w, "%v\n", body)
+      fmt.Fprintf(w, "%v", body)
     }
   }()
 
@@ -94,5 +94,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
     return nil
   }, nil))
 
-  body = value
+  body = value + "\n"
 }

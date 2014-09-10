@@ -17,20 +17,18 @@ def die(msg):
 def ok(msg):
   sys.stdout.write("OK: %s\n" % msg)
 
-# test that putting something at the empty key works
-requests.put('%s//Hello.From.WORM' % endpoint)
 r = requests.get(endpoint)
 r.status_code == 200 or r.status_code == 201 or die('could not put the empty key')
 retrieved = r.text.strip()
 
 if retrieved != 'Hello.From.WORM':
-  die('bad value for empty string: %s' % retrieved)
+  die('bad response for empty string: %s' % retrieved)
 ok('worm says: ' + retrieved)
 
 # test that new keys 404
 r = requests.get(get_url)
 r.status_code == 404 or die('get with new key returned status code: %s' % r.status_code)
-ok('get with new key 404ed as expected')
+ok('get with new key 404ed as expected: %s' % get_url)
 
 r = requests.put(put_url)
 r.status_code == 201 or die('put with new key returned status code: %s' % r.status_code)
