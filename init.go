@@ -69,7 +69,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
   if put {
     ensure(len(match) == 3, http.StatusForbidden)
     value = strings.TrimPrefix(match[2], "/")
-  } 
+  }
 
   check(datastore.RunInTransaction(c, func(c appengine.Context) error {
     pointer, e := getValue(c, key)
