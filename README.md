@@ -13,8 +13,8 @@ PUT /KEY/VALUE associates KEY with VALUE. Puts after the first will be ignored.
 
 GET /KEY will return the value associated with KEY.
 
-KEYs and VALUEs match `/[a-zA-Z0-9.-_]*/`.
-
+KEYs match `/[a-zA-Z0-9.-_]+/`.
+VALUEs match `/[a-zA-Z0-9.-_]{0,64}/`.
 
 Errata
 ------

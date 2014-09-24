@@ -5,8 +5,8 @@ api_version: go1
 
 handlers:
 - url: /
-  static_files: index.txt
-  upload: index.txt
+  static_files: index.html
+  upload: index.html
 
 - url: /.*
   script: _go_app

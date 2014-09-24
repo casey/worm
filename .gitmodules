@@ -1,0 +1,3 @@
+[submodule "flotilla"]
+	path = flotilla
+	url = git@github.com:casey/flotilla.git

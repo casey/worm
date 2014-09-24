@@ -33,13 +33,9 @@ func getValue(c appengine.Context, key string) (*string, error) {
   }
 }
 
-func putValue(c appengine.Context, key string, value string) (*string, error) {
+func putValue(c appengine.Context, key string, value string) error {
   datastoreKey := makeDatastoreKey(c, key)
   entity := entity{value}
   _, e := datastore.Put(c, datastoreKey, &entity)
-  if e == nil {
-    return &entity.Value, nil
-  } else {
-    return nil, e
-  }
+  return e
 }

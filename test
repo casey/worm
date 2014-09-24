@@ -21,10 +21,6 @@ r = requests.get(endpoint)
 r.status_code == 200 or r.status_code == 201 or die('could not put the empty key')
 retrieved = r.text.strip()
 
-if retrieved != 'Hello.From.WORM':
-  die('bad response for empty string: %s' % retrieved)
-ok('worm says: ' + retrieved)
-
 # test that new keys 404
 r = requests.get(get_url)
 r.status_code == 404 or die('get with new key returned status code: %s' % r.status_code)
