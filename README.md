@@ -9,15 +9,16 @@ A write once read many key value storage service.
 API
 ---
 
-PUT /KEY/VALUE associates KEY with VALUE. Puts after the first will be ignored.
-
-GET /KEY will return the value associated with KEY.
-
 KEYs match `/[a-zA-Z0-9.-_]+/`.
+
 VALUEs match `/[a-zA-Z0-9.-_]{0,64}/`.
 
-Errata
-------
+* `PUT /KEY/VALUE` -> Associates KEY with VALUE. Puts after the first will be ignored.
+* `GET /KEY` ->  Returns the value associated with KEY.
+
+
+About
+-----
 
 KEYs can be any length, but VALUEs are limited to 64 characters just to avoid too much spam in the test instance datastore. The allowed characters are exactly enough for URL-safe base64 encoding.
 
