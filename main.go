@@ -27,7 +27,8 @@ func put(r *http.Request) {
 
   var stored *string
   Check(datastore.RunInTransaction(c, func(c appengine.Context) error {
-    stored, e := getValue(c, key)
+    v, e := getValue(c, key)
+    stored = v
     Check(e)
     if stored == nil {
       Check(putValue(c, key, value))
