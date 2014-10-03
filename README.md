@@ -17,11 +17,11 @@ VALUEs match `/[a-zA-Z0-9.-_]{0,64}/`.
 * `GET /KEY` ->  Returns the value associated with KEY.
 
 ```
-> curl -X PUT http://localhost:8080/hello/bob --data ''
+> curl -X PUT http://rodarmor-worm.appspot.com/hello/bob --data ''
 bob
-> curl -X PUT http://localhost:8080/hello/frank --data ''
+> curl -X PUT http://rodarmor-worm.appspot.com/hello/frank --data ''
 403 Forbidden
-> curl -X GET http://localhost:8080/hello
+> curl -X GET http://rodarmor-worm.appspot.com/hello
 bob
 ```
 
