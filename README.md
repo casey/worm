@@ -16,6 +16,14 @@ VALUEs match `/[a-zA-Z0-9.-_]{0,64}/`.
 * `PUT /KEY/VALUE` -> Associates KEY with VALUE. Puts after the first will be ignored.
 * `GET /KEY` ->  Returns the value associated with KEY.
 
+```
+> curl -X PUT http://localhost:8080/hello/bob --data ''
+bob
+> curl -X PUT http://localhost:8080/hello/frank --data ''
+403 Forbidden
+> curl -X GET http://localhost:8080/hello
+bob
+```
 
 About
 -----
