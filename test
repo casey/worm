@@ -6,9 +6,7 @@ endpoint = sys.argv[1]
 now      = time.time()
 key      = "test-key-" + uuid.uuid1().hex
 value    = "test-val-" + uuid.uuid1().hex
-get_url  = '%s/%s' % (endpoint, key)
-put_url  = '%s/%s/%s' % (endpoint, key, value)
-bad_put  = '%s/%s/BAD_VALUE' % (endpoint, key)
+url      = '%s/%s' % (endpoint, key)
 
 def die(msg):
   sys.stdout.write("ERROR: %s\n" % msg)
@@ -22,11 +20,11 @@ r.status_code == 200 or r.status_code == 201 or die('could not put the empty key
 retrieved = r.text.strip()
 
 # test that new keys 404
-r = requests.get(get_url)
+r = requests.get(url)
 r.status_code == 404 or die('get with new key returned status code: %s' % r.status_code)
-ok('get with new key 404ed as expected: %s' % get_url)
+ok('get with new key 404ed as expected: %s' % url)
 
-r = requests.put(put_url)
+r = requests.put(url, value)
 r.status_code == 201 or die('put with new key returned status code: %s' % r.status_code)
 ok('new key created successfully')
 retrieved = r.text.strip()
@@ -35,7 +33,7 @@ if retrieved != value:
   die('bad key retreived: %s' % retrieved)
 ok('new key retreival okay: %s' % retrieved)
 
-r = requests.get(get_url)
+r = requests.get(url)
 r.status_code == 200 or die('tried to retrieve value but got status code: %s' % r.status_code)
 retrieved = r.text.strip()
 

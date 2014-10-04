@@ -4,27 +4,29 @@ import "appengine"
 import "appengine/datastore"
 import "net/http"
 import "regexp"
+import "strings"
 
 import . "flotilla"
 
-var put_re = regexp.MustCompile(`^/(?P<key>[a-zA-Z0-9_.-]+)/(?P<value>[a-zA-Z0-9_.-]{0,64})$`)
-var get_re = regexp.MustCompile(`^/(?P<key>[a-zA-Z0-9_.-]+)$`)
+var key_re = regexp.MustCompile(`^[a-zA-Z0-9_.-]+$`)
 
 func init() {
   Handle("/").Put(put).Get(get).Options(options)
 }
 
 func options(r *http.Request) {
-  Status(http.StatusOK)
+  Status(StatusOK)
 }
 
 func put(r *http.Request) {
   c := appengine.NewContext(r)
-  components := Components(put_re, r.URL.Path)
-  Ensure(components != nil, http.StatusForbidden)
-  key := components["key"]
-  value := components["value"]
-
+  key := strings.TrimPrefix(r.URL.Path, "/")
+  Ensure(key_re.MatchString(key), StatusForbidden)
+  Ensure(r.ContentLength >= 0, StatusLengthRequired)
+  Ensure(r.ContentLength <= 128, StatusRequestEntityTooLarge)
+  buffer, e := ReadContent(r)
+  Check(e)
+  value := string(buffer)
   var stored *string
   Check(datastore.RunInTransaction(c, func(c appengine.Context) error {
     v, e := getValue(c, key)
@@ -37,21 +39,20 @@ func put(r *http.Request) {
   }, nil))
 
   if stored == nil {
-    Text(http.StatusCreated, value)
+    Text(StatusCreated, value)
   } else if *stored == value {
-    Text(http.StatusOK, value)
+    Text(StatusOK, value)
   } else {
-    Status(http.StatusForbidden)
+    Status(StatusForbidden)
   }
 }
 
 func get(r *http.Request) {
   c := appengine.NewContext(r)
-  components := Components(get_re, r.URL.Path)
-  Ensure(components != nil, http.StatusForbidden)
-  key := components["key"]
+  key := strings.TrimPrefix(r.URL.Path, "/")
+  Ensure(key_re.MatchString(key), StatusForbidden)
   value, e := getValue(c, key)
   Check(e)
-  Ensure(value != nil, http.StatusNotFound)
-  Body(http.StatusOK, *value, "text/plain; charset=utf-8")
+  Ensure(value != nil, StatusNotFound)
+  Body(StatusOK, *value, "text/plain; charset=utf-8")
 }
